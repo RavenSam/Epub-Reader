@@ -4,18 +4,19 @@ import { TOC } from "@/components/TOC"
 import { useTheme } from "./theme-provider"
 import { useStore } from "@/store"
 import { motion, useMotionValueEvent, useScroll } from "motion/react"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 
 export const Header = () => {
-	const { book, toc, setSettingsOpen } = useStore()
+	const { book, toc, setSettingsOpen, currentLocation } = useStore()
 	const { setTheme, theme } = useTheme()
-	const scrollRef = useRef<HTMLElement | null>(null)
 
+	// Does not work with ref
+	const [scrollContainer, setScrollContainer] = useState<{ current: HTMLElement | null } | null>(null)
 	useEffect(() => {
-		scrollRef.current = document.querySelector<HTMLElement>(".epub-container")
-	}, [])
-
-	const { scrollY } = useScroll({ container: scrollRef })
+		setScrollContainer({ current: document.querySelector<HTMLElement>(".epub-container") })
+	}, [currentLocation])
+	// @ts-ignore
+	const { scrollY } = useScroll({ container: scrollContainer })
 
 	const [hidden, setHidden] = useState(false)
 

@@ -59,6 +59,9 @@ dependencies:
   react-dom:
     specifier: ^18.3.1
     version: 18.3.1(react@18.3.1)
+  react-hotkeys-hook:
+    specifier: ^5.0.1
+    version: 5.0.1(react-dom@18.3.1)(react@18.3.1)
   tailwind-merge:
     specifier: ^3.3.0
     version: 3.3.0
@@ -2204,6 +2207,16 @@ packages:
       loose-envify: 1.4.0
       react: 18.3.1
       scheduler: 0.23.2
+    dev: false
+
+  /react-hotkeys-hook@5.0.1(react-dom@18.3.1)(react@18.3.1):
+    resolution: {integrity: sha512-TysTwXrUSj6QclMZIEoxCfvy/6EsoZcrfE970aUVa9fO3c3vcms+IVjv3ljbhUPM/oY1iEoun7O2W8v8INl5hw==}
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+    dependencies:
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
     dev: false
 
   /react-refresh@0.17.0:

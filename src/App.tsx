@@ -13,7 +13,7 @@ export default function App() {
 	return (
 		<ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
 			<div className="flex flex-col h-screen">
-				<Header />
+				<Header key={book?.packaging?.metadata.identifier} />
 				<div className="flex flex-1 overflow-hidden">
 					{book ? (
 						<ContentRenderer />
