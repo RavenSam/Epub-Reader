@@ -4,13 +4,19 @@ import { TOC } from "@/components/TOC"
 import { useTheme } from "./theme-provider"
 import { useStore } from "@/store"
 import { motion, useMotionValueEvent, useScroll } from "motion/react"
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 export const Header = () => {
 	const { book, toc, setSettingsOpen } = useStore()
 	const { setTheme, theme } = useTheme()
+	const scrollRef = useRef<HTMLElement | null>(null)
 
-	const { scrollY } = useScroll()
+	useEffect(() => {
+		scrollRef.current = document.querySelector<HTMLElement>(".epub-container")
+	}, [])
+
+	const { scrollY } = useScroll({ container: scrollRef })
+
 	const [hidden, setHidden] = useState(false)
 
 	useMotionValueEvent(scrollY, "change", (latest) => {
@@ -31,7 +37,7 @@ export const Header = () => {
 			}}
 			animate={hidden ? "hidden" : "visible"}
 			transition={{ duration: 0.35, ease: "easeInOut" }}
-			className="flex items-center justify-between p-4 bg-background/50 backdrop-blur-md absolute top-0 left-0 right-4 z-10"
+			className="flex items-center justify-between px-4 py-2 bg-background/50 backdrop-blur-md absolute top-0 left-0 right-4 z-10"
 		>
 			<div className="flex items-center space-x-4">
 				{!!toc.length && <TOC />}
