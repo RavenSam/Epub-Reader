@@ -1,16 +1,28 @@
+import { useHotkeys } from "react-hotkeys-hook"
 import { useStore } from "@/store"
 import { ArrowLeft, ArrowRight } from "lucide-react"
+import { useCallback } from "react"
 
 export const Control = () => {
 	const { book } = useStore()
 
+	// Handlers that safely no-op if book is undefined
+	const onPrev = useCallback(() => {
+		book?.rendition.prev()
+	}, [book])
+	const onNext = useCallback(() => {
+		book?.rendition.next()
+	}, [book])
+
+	// Always call these hooks in the same order…
+	useHotkeys("arrowleft", onPrev, { enabled: !!book })
+	useHotkeys("arrowright", onNext, { enabled: !!book })
+
+	// …but bail out of rendering the buttons if there’s no book
 	if (!book) return null
 
-	const onPrev = () => book?.rendition.prev()
-	const onNext = () => book?.rendition.next()
-
 	return (
-		<div className="">
+		<div>
 			<button
 				onClick={onPrev}
 				aria-label="Previous"
