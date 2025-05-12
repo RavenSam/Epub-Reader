@@ -58,6 +58,9 @@ export const ContentRenderer = () => {
 				"font-size": `${readerSettings.fontSize}px !important`,
 				"line-height": readerSettings.lineHeight.toString() + " !important",
 				color: fg + " !important",
+				width: "100% !important",
+				margin: "0 auto !important",
+				"max-width": `${readerSettings.contentWidth}px`,
 			},
 		}
 
@@ -65,5 +68,5 @@ export const ContentRenderer = () => {
 		rend.themes.select("custom")
 	}, [readerSettings])
 
-	return <div ref={viewerRef} className="flex-1 [&>div]:!overflow-x-hidden" />
+	return <div ref={viewerRef} className="flex-1 [&>div]:!overflow-x-hidden [&>div]:py-36" />
 }

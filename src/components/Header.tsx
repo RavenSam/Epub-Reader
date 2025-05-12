@@ -3,20 +3,42 @@ import { Sun, Moon, Settings as SettingsIcon } from "lucide-react"
 import { TOC } from "@/components/TOC"
 import { useTheme } from "./theme-provider"
 import { useStore } from "@/store"
+import { motion, useMotionValueEvent, useScroll } from "motion/react"
+import { useState } from "react"
 
-const Header = () => {
+export const Header = () => {
 	const { book, toc, setSettingsOpen } = useStore()
-
 	const { setTheme, theme } = useTheme()
 
+	const { scrollY } = useScroll()
+	const [hidden, setHidden] = useState(false)
+
+	useMotionValueEvent(scrollY, "change", (latest) => {
+		const previous = scrollY.getPrevious() ?? latest
+
+		if (latest > previous && latest > 150) {
+			setHidden(true)
+		} else {
+			setHidden(false)
+		}
+	})
+
 	return (
-		<header className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
+		<motion.header
+			variants={{
+				visible: { y: 0 },
+				hidden: { y: "-100%" },
+			}}
+			animate={hidden ? "hidden" : "visible"}
+			transition={{ duration: 0.35, ease: "easeInOut" }}
+			className="flex items-center justify-between p-4 bg-background/50 backdrop-blur-md absolute top-0 left-0 right-4 z-10"
+		>
 			<div className="flex items-center space-x-4">
 				{!!toc.length && <TOC />}
 				<div>
-					<h1 className="text-xl font-bold truncate max-w-xs">{book?.packaging?.metadata.title || "EPUB Reader"}</h1>
+					<h1 className="text-lg font-bold truncate max-w-xs">{book?.packaging?.metadata.title || "EPUB Reader"}</h1>
 					{book?.packaging?.metadata.creator && (
-						<p className="text-sm text-gray-600 dark:text-gray-400 truncate">{book.packaging.metadata.creator}</p>
+						<p className="text-xs text-gray-600 dark:text-gray-400 truncate">{book.packaging.metadata.creator}</p>
 					)}
 				</div>
 			</div>
@@ -27,14 +49,12 @@ const Header = () => {
 					onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
 					aria-label="Toggle theme"
 				>
-					{theme === "dark" ? <Sun className="size-4" /> : <Moon className="size-4" />}
+					{theme === "dark" ? <Sun className="size-5" /> : <Moon className="size-5" />}
 				</Button>
 				<Button variant="ghost" size="icon" onClick={() => setSettingsOpen(true)} aria-label="Settings">
-					<SettingsIcon className="size-4" />
+					<SettingsIcon className="size-5" />
 				</Button>
 			</div>
-		</header>
+		</motion.header>
 	)
 }
-
-export default Header

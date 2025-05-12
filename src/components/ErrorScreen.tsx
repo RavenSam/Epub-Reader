@@ -1,13 +1,11 @@
-import React from "react";
+import React from "react"
 
 interface ErrorScreenProps {
-  message: string;
+	message: string
 }
 
-const ErrorScreen: React.FC<ErrorScreenProps> = ({ message }) => (
-  <div className="flex items-center justify-center flex-1 text-red-600">
-    <p>{message}</p>
-  </div>
-);
-
-export default ErrorScreen;
+export const ErrorScreen: React.FC<ErrorScreenProps> = ({ message }) => (
+	<div className="flex items-center justify-center flex-1 text-red-600">
+		<p>{message}</p>
+	</div>
+)

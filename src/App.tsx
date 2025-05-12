@@ -1,9 +1,9 @@
 import { ContentRenderer } from "@/components/ContentRenderer"
-import ErrorScreen from "@/components/ErrorScreen"
-import FileUploader from "@/components/FileUploader"
+import { ErrorScreen } from "@/components/ErrorScreen"
+import { FileUploader } from "@/components/FileUploader"
 import { Control } from "@/components/Control"
-import Header from "@/components/Header"
-import SettingsSidebar from "@/components/SettingsSidebar"
+import { Header } from "@/components/Header"
+import { SettingsSidebar } from "@/components/SettingsSidebar"
 import { useStore } from "@/store"
 import { ThemeProvider } from "@/components/theme-provider"
 

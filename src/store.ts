@@ -1,4 +1,6 @@
+// --- src/store/index.ts ---
 import { create } from "zustand"
+import { persist } from "zustand/middleware"
 import ePub, { Book } from "epubjs"
 import { ReaderSettings } from "@/components/SettingsSidebar"
 
@@ -30,41 +32,51 @@ interface Store {
 	scrollTo: (href: string) => void
 }
 
-export const useStore = create<Store>((set, get) => ({
-	book: null,
-	setBook: (book) => {
-		set({ book, currentLocation: null })
-		book?.loaded.navigation.then((nav) => get().setToc(nav.toc))
-	},
-	toc: [],
-	setToc: (toc) => set({ toc }),
-	currentLocation: null,
-	setCurrentLocation: (currentLocation) => set({ currentLocation }),
-	error: null,
-	setError: (error) => set({ error }),
+// Persist only readerSettings to localStorage
+export const useStore = create<Store>()(
+	persist(
+		(set, get) => ({
+			book: null,
+			setBook: (book) => {
+				set({ book, currentLocation: null })
+				book?.loaded.navigation.then((nav) => get().setToc(nav.toc))
+			},
+			toc: [],
+			setToc: (toc) => set({ toc }),
+			currentLocation: null,
+			setCurrentLocation: (currentLocation) => set({ currentLocation }),
+			error: null,
+			setError: (error) => set({ error }),
 
-	readerSettings: {
-		fontSize: 16,
-		lineHeight: 1.6,
-		fontFamily: "serif",
-	},
-	updateSetting: (key, value) =>
-		set((state) => ({
-			readerSettings: { ...state.readerSettings, [key]: value },
-		})),
-	settingsOpen: false,
-	setSettingsOpen: (settingsOpen) => set({ settingsOpen }),
+			readerSettings: {
+				fontSize: 16,
+				lineHeight: 1.6,
+				fontFamily: "sans-serif",
+				contentWidth: 900,
+			},
+			updateSetting: (key, value) =>
+				set((state) => ({
+					readerSettings: { ...state.readerSettings, [key]: value },
+				})),
+			settingsOpen: false,
+			setSettingsOpen: (settingsOpen) => set({ settingsOpen }),
 
-	handleFileRead: (buffer) => {
-		try {
-			const newBook = ePub(buffer)
-			get().setBook(newBook)
-		} catch {
-			get().setError("Failed to load EPUB file.")
+			handleFileRead: (buffer) => {
+				try {
+					const newBook = ePub(buffer)
+					get().setBook(newBook)
+				} catch {
+					get().setError("Failed to load EPUB file.")
+				}
+			},
+			scrollTo: (href) => {
+				get().book?.rendition.display(href)
+				get().setCurrentLocation(href)
+			},
+		}),
+		{
+			name: "reader-settings-storage",
+			partialize: (state) => ({ readerSettings: state.readerSettings }),
 		}
-	},
-	scrollTo: (href) => {
-		get().book?.rendition.display(href)
-		get().setCurrentLocation(href)
-	},
-}))
+	)
+)

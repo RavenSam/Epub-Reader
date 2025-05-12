@@ -10,6 +10,7 @@ export type ReaderSettings = {
 	fontSize: number
 	lineHeight: number
 	fontFamily: string
+	contentWidth: number
 }
 
 const FONTS = [
@@ -18,7 +19,7 @@ const FONTS = [
 	{ label: "Monospace", value: "monospace" },
 ]
 
-export default function SettingsSidebar() {
+export const SettingsSidebar = () => {
 	const { settingsOpen, setSettingsOpen, readerSettings, updateSetting } = useStore()
 
 	return (
@@ -87,6 +88,27 @@ export default function SettingsSidebar() {
 						<div className="flex justify-between text-xs text-muted-foreground">
 							<span>1.0</span>
 							<span>2.0</span>
+						</div>
+					</div>
+
+					{/* Content Width */}
+					<div className="space-y-2">
+						<div className="flex items-center justify-between">
+							<Label htmlFor="content-width">Content Width</Label>
+							<span className="text-sm text-muted-foreground">{readerSettings.contentWidth}px</span>
+						</div>
+						<Slider
+							id="content-width"
+							min={450}
+							max={1524}
+							step={1}
+							value={[readerSettings.contentWidth]}
+							onValueChange={(values) => updateSetting("contentWidth", values[0])}
+							className="w-full"
+						/>
+						<div className="flex justify-between text-xs text-muted-foreground">
+							<span>320px</span>
+							<span>1024px</span>
 						</div>
 					</div>
 				</div>
