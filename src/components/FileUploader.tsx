@@ -27,15 +27,18 @@ export const FileUploader: React.FC<FileUploaderProps> = ({ onFileRead }) => {
 	}
 
 	return (
-		<div className="grid pt-32 p-4 flex-1 w-full max-w-5xl mx-auto">
+		<div className="grid pt-8 p-4 w-full max-w-5xl mx-auto">
 			<input ref={inputRef} type="file" accept=".epub" className="sr-only" onChange={handleChange} />
-			<button
-				className="w-40 aspect-[1/1.8] flex items-center justify-center border border-muted-foreground/50 rounded-md hover:border-primary hover:text-primary cursor-pointer"
-				onClick={handleClick}
-			>
-				<PlusIcon className="size-6" />
-				<span className="sr-only">Upload EPUB</span>
-			</button>
+			<div className="flex flex-col items-center">
+				<button
+					className="w-40 aspect-[1/1.8] flex items-center justify-center border border-muted-foreground/50 rounded-md hover:border-primary hover:text-primary cursor-pointer"
+					onClick={handleClick}
+				>
+					<PlusIcon className="size-6" />
+					<span className="sr-only">Upload EPUB</span>
+				</button>
+				<p className="mt-4 text-sm text-muted-foreground">Click to upload an EPUB file</p>
+			</div>
 		</div>
 	)
 }
