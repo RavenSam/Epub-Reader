@@ -47,12 +47,13 @@ export const useStore = create<Store>()(
 			setCurrentLocation: (currentLocation) => set({ currentLocation }),
 			error: null,
 			setError: (error) => set({ error }),
-
 			readerSettings: {
 				fontSize: 16,
 				lineHeight: 1.6,
 				fontFamily: "sans-serif",
 				contentWidth: 900,
+				paragraphSpacing: 15,
+				textIndent: "default", // "default", "remove", "force"
 			},
 			updateSetting: (key, value) =>
 				set((state) => ({
@@ -60,7 +61,6 @@ export const useStore = create<Store>()(
 				})),
 			settingsOpen: false,
 			setSettingsOpen: (settingsOpen) => set({ settingsOpen }),
-
 			handleFileRead: (buffer) => {
 				try {
 					const newBook = ePub(buffer)

@@ -11,12 +11,20 @@ export type ReaderSettings = {
 	lineHeight: number
 	fontFamily: string
 	contentWidth: number
+	paragraphSpacing: number
+	textIndent: "default" | "remove" | "force"
 }
 
 const FONTS = [
 	{ label: "Serif", value: "serif" },
 	{ label: "Sans Serif", value: "sans-serif" },
 	{ label: "Monospace", value: "monospace" },
+]
+
+const TEXT_INDENT_OPTIONS = [
+	{ label: "Keep Original", value: "default" },
+	{ label: "Remove Indents", value: "remove" },
+	{ label: "Force Indents", value: "force" },
 ]
 
 export const SettingsSidebar = () => {
@@ -28,9 +36,7 @@ export const SettingsSidebar = () => {
 				<DialogHeader className="flex flex-row items-center justify-between">
 					<DialogTitle className="text-xl">Reader Settings</DialogTitle>
 				</DialogHeader>
-
 				<hr className="mb-2" />
-
 				<div className="space-y-6 py-2">
 					{/* Font Family */}
 					<div className="space-y-2">
@@ -89,6 +95,47 @@ export const SettingsSidebar = () => {
 							<span>1.0</span>
 							<span>2.0</span>
 						</div>
+					</div>
+
+					{/* Paragraph Spacing */}
+					<div className="space-y-2">
+						<div className="flex items-center justify-between">
+							<Label htmlFor="paragraph-spacing">Paragraph Spacing</Label>
+							<span className="text-sm text-muted-foreground">{readerSettings.paragraphSpacing}px</span>
+						</div>
+						<Slider
+							id="paragraph-spacing"
+							min={10}
+							max={30}
+							step={1}
+							value={[readerSettings.paragraphSpacing]}
+							onValueChange={(values) => updateSetting("paragraphSpacing", values[0])}
+							className="w-full"
+						/>
+						<div className="flex justify-between text-xs text-muted-foreground">
+							<span>0px</span>
+							<span>24px</span>
+						</div>
+					</div>
+
+					{/* Text Indent Options */}
+					<div className="space-y-2">
+						<Label htmlFor="text-indent">Paragraph Indentation</Label>
+						<Select
+							value={readerSettings.textIndent}
+							onValueChange={(value) => updateSetting("textIndent", value as "default" | "remove" | "force")}
+						>
+							<SelectTrigger id="text-indent" className="w-full">
+								<SelectValue placeholder="Select indentation style" />
+							</SelectTrigger>
+							<SelectContent>
+								{TEXT_INDENT_OPTIONS.map((option) => (
+									<SelectItem key={option.value} value={option.value}>
+										{option.label}
+									</SelectItem>
+								))}
+							</SelectContent>
+						</Select>
 					</div>
 
 					{/* Content Width */}

@@ -49,6 +49,16 @@ export const ContentRenderer = () => {
 
 		const fg = getComputedStyle(document.documentElement).getPropertyValue("--foreground").trim()
 
+		// Handle text indentation based on selected option
+		let textIndentStyle = {}
+		if (readerSettings.textIndent === "remove") {
+			textIndentStyle = { "text-indent": "0 !important" }
+		} else if (readerSettings.textIndent === "force") {
+			textIndentStyle = { "text-indent": "2em !important" }
+		} else {
+			textIndentStyle = { "text-indent": "initial" }
+		}
+
 		const customStyles = {
 			"*": {
 				"font-family": readerSettings.fontFamily,
@@ -61,6 +71,10 @@ export const ContentRenderer = () => {
 				width: "100% !important",
 				margin: "0 auto !important",
 				"max-width": `${readerSettings.contentWidth}px`,
+			},
+			p: {
+				"margin-bottom": `${readerSettings.paragraphSpacing}px !important`,
+				...textIndentStyle,
 			},
 		}
 

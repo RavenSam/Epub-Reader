@@ -7,9 +7,7 @@ import { cn } from "@/lib/utils"
 import { ButtonHTMLAttributes, ReactNode } from "react"
 
 export const TOC = () => {
-	const { toc, currentLocation, scrollTo, book } = useStore()
-
-	console.log({ currentLocation, toc, book })
+	const { toc, currentLocation, scrollTo } = useStore()
 
 	return (
 		<Sheet>
