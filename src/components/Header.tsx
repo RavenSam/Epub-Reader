@@ -37,16 +37,13 @@ export const Header = () => {
 			{!!book && (
 				<div className="fixed top-0 h-0.5 bg-muted-foreground/30 z-20 inset-x-0">
 					<div className="absolute h-full left-0 bg-primary transition-all" style={{ width: width.get() }}>
-						<div className="absolute top-1/2 right-0 w-3 h-3 bg-primary rounded-full blur-sm transform -translate-y-1/2 scale-110" />
+						<div className="absolute h-1 left-0 -right-1 bg-primary transition-all blur-xs" />
 					</div>
 				</div>
 			)}
 
 			<motion.header
-				variants={{
-					visible: { y: 0 },
-					hidden: { y: "-100%" },
-				}}
+				variants={{ visible: { y: 0 }, hidden: { y: "-100%" } }}
 				animate={hidden ? "hidden" : "visible"}
 				transition={{ duration: 0.35, ease: "easeInOut" }}
 				className="flex items-center justify-between px-4 py-2 bg-background/50 backdrop-blur-md absolute top-0 left-0 right-4 z-10"
